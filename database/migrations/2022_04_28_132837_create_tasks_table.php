@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTasksTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -16,7 +16,7 @@ class CreateTasksTable extends Migration
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->foreignId('card_id')->constrained('cards');
+            $table->foreignId('card_id')->constrained('cards')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -30,4 +30,4 @@ class CreateTasksTable extends Migration
     {
         Schema::dropIfExists('tasks');
     }
-}
+};

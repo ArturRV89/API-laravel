@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateDeskControllersTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,10 @@ class CreateDeskControllersTable extends Migration
      */
     public function up()
     {
-        Schema::create('desk_controllers', function (Blueprint $table) {
+        Schema::create('cards', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->foreignId('desk_list_id')->constrained('desk_lists')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -26,6 +28,6 @@ class CreateDeskControllersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('desk_controllers');
+        Schema::dropIfExists('cards');
     }
-}
+};

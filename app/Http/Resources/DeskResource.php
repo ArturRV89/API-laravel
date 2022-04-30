@@ -19,7 +19,7 @@ class DeskResource extends JsonResource
             'id' => $this->id,
            'name' => $this->name,
             'created_at' => $this->created_at,
-            'list' => DeskListResource::collection($this->lists)
+            'lists' => DeskListResource::collection($this->lists),
         ];
     }
 }

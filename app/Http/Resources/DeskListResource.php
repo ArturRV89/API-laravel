@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Http\Requests\DeskRequest;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class DeskListResource extends JsonResource
@@ -15,9 +16,9 @@ class DeskListResource extends JsonResource
     public function toArray($request)
     {
         return [
-           'id' => $this->id,
-           'name' => $this->name,
-           'created_at' => $this->created_at,
+            'id' =>$this->id,
+            'name' => $this->name,
+            'created_at' => $this->created_at
         ];
     }
 }
