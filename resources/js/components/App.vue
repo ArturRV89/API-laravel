@@ -4,13 +4,13 @@
         <div class="container">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <router-link class="nav-link active" :to="{name:'home'}">Home</router-link>
+                    <router-link class="nav-link active" :to="{name:'home'}">Главная</router-link>
                 </li>
                 <li class="nav-item">
                     <router-link class="nav-link" :to="{name:'about'}">About</router-link>
                 </li>
                 <li class="nav-item">
-                    <router-link class="nav-link" :to="{name:'desks'}">Desks</router-link>
+                    <router-link class="nav-link" :to="{name:'desks'}">Доски</router-link>
                 </li>
                 <li class="nav-item">
                     <router-link class="nav-link" :to="{name:'example'}">Example</router-link>

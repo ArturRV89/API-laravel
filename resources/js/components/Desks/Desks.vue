@@ -3,12 +3,12 @@
     <div class="container">
         <h1>Desks</h1>
 
-        <form class="form-control" >
+        <form class="form-control " @submit.prevent="createDesk">
             <div class="mb-3" :class="{ 'is-invalid': $v.name.$error }">
-                <input type="text" placeholder="Введите название новой доски" class="form-control"
-                       v-model="name" >
+                <input type="text" placeholder="Введите название новой доски" class="form-control" v-model="name" >
             </div>
-            <button type="button" class="btn btn-success" @click="createDesk">Создать</button>
+            <button class="btn btn-success">Создать</button>
+
             <!--Валидация-->
             <div class="invalid-feedback" v-if="!$v.name.minLength" >
                 Мин. кол-во символов: {{$v.name.$params.minLength.min}}.
@@ -25,12 +25,14 @@
         </div>
 
         <div class="row">
-            <div class="col-lg-4" v-for="desk in desks">
+            <div class="col-lg-4 align-content-center " v-for="desk in desks">
                 <div class="card mt-3">
                     <router-link class="card-body  nav-link" :to="{name:'showDesks', params:{deskId: desk.id}}">
                         <h4 class="card-title">{{desk.name}}</h4>
                     </router-link>
-                    <button type="button" class="btn btn-danger" @click="deleteDesk(desk.id)">Удалить</button>
+                    <div class="card-body">
+                        <button type="button" class="btn btn-danger w-25 " @click="deleteDesk(desk.id)">Удалить</button>
+                    </div>
                 </div>
             </div>
         </div>

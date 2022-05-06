@@ -20,7 +20,7 @@
 {{--            'csrfToken' => csrf_token(),--}}
 {{--        ]); ?>--}}
 {{--    </script>--}}
-
+    <script src="https://kit.fontawesome.com/1c9fc175c1.js" crossorigin="anonymous"></script>
     <script src="{{ mix('js/app.js') }}"></script>
 </body>
 </html>

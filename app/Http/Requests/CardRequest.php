@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class DeskRequest extends FormRequest
+class CardRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,14 +24,8 @@ class DeskRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|max:255|min:5|unique:desks,name',
-        ];
-    }
-
-    public function messages()
-    {
-        return [
-            'name.unique' => 'Имя должно быть уникальным'
+            'name' => 'required|max:255|min:5',
+            'desk_list_id' => 'required|integer|exists:desk_lists,id',
         ];
     }
 }

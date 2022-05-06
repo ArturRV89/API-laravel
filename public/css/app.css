@@ -11286,3 +11286,11 @@ textarea.form-control-lg {
     display: none !important;
   }
 }
+.card-title {
+  cursor: pointer;
+}
+
+.fa-solid {
+  cursor: pointer;
+  font-size: 15px;
+}
