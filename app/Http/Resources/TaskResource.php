@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class CardResource extends JsonResource
+class TaskResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,11 +15,10 @@ class CardResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id' =>$this->id,
+            'id' => $this->id,
             'name' => $this->name,
             'created_at' => $this->created_at,
-            'desk_list_id' => $this->desk_list_id,
-            'tasks' => TaskResource::collection($this->tasks)
+            'card_id' => $this->card_id,
         ];
     }
 }

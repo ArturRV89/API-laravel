@@ -5687,6 +5687,39 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['deskId'],
@@ -5698,24 +5731,93 @@ __webpack_require__.r(__webpack_exports__);
       loading: true,
       desk_lists: null,
       desk_list_input_id: null,
-      card_names: []
+      card_names: [],
+      current_card: [],
+      card_name_input: true,
+      new_task_name: null,
+      current_task_name: null,
+      input_task_id: null
     };
   },
   methods: {
-    deleteCard: function deleteCard(id) {
+    renameTask: function renameTask(id) {
       var _this = this;
 
-      axios.post('/api/V1/cards/' + id, {
-        _method: 'DELETE'
-      }).then(function (response) {
-        _this.getDeskLists();
-      })["catch"](function (error) {
+      axios.get('/api/V1/tasks/' + id, {
+        name: this.current_task_name,
+        card_id: this.input_task_id
+      }).then(function (response) {})["catch"](function (error) {
         console.log(error.response.data.errors);
         _this.errored = true;
       });
     },
-    createCard: function createCard(desk_list_id) {
+    deleteTask: function deleteTask(id) {
       var _this2 = this;
+
+      axios.post('/api/V1/tasks/' + id, {
+        _method: 'DELETE'
+      }).then(function (response) {
+        _this2.getCard(_this2.current_card.id);
+      })["catch"](function (error) {
+        console.log(error.response.data.errors);
+        _this2.errored = true;
+      });
+    },
+    createNewTask: function createNewTask() {
+      var _this3 = this;
+
+      axios.post('/api/V1/tasks', {
+        name: this.new_task_name,
+        card_id: this.current_card.id
+      }).then(function (response) {
+        _this3.new_task_name = '';
+
+        _this3.getCard(_this3.current_card.id);
+      })["catch"](function (error) {
+        console.log(error.response.data.errors);
+        _this3.errored = true;
+      });
+    },
+    updateCardName: function updateCardName() {
+      var _this4 = this;
+
+      axios.post('/api/V1/cards/' + this.current_card.id, {
+        _method: 'PATCH',
+        name: this.current_card.name,
+        desk_list_id: this.current_card.desk_list_id
+      }).then(function (response) {
+        _this4.card_name_input = false;
+
+        _this4.getDeskLists();
+      })["catch"](function (error) {
+        console.log(error.response.data.errors);
+        _this4.errored = true;
+      });
+    },
+    getCard: function getCard(id) {
+      var _this5 = this;
+
+      axios.get('/api/V1/cards/' + id).then(function (response) {
+        _this5.current_card = response.data.data;
+      })["catch"](function (error) {
+        console.log(error.response.data.errors);
+        _this5.errored = true;
+      });
+    },
+    deleteCard: function deleteCard(id) {
+      var _this6 = this;
+
+      axios.post('/api/V1/cards/' + id, {
+        _method: 'DELETE'
+      }).then(function (response) {
+        _this6.getDeskLists();
+      })["catch"](function (error) {
+        console.log(error.response.data.errors);
+        _this6.errored = true;
+      });
+    },
+    createCard: function createCard(desk_list_id) {
+      var _this7 = this;
 
       this.$v.card_names.$each[desk_list_id].$touch();
 
@@ -5727,34 +5829,34 @@ __webpack_require__.r(__webpack_exports__);
         name: this.card_names[desk_list_id],
         desk_list_id: desk_list_id
       }).then(function (response) {
-        _this2.getDeskLists();
+        _this7.getDeskLists();
       })["catch"](function (error) {
         console.log(error.response.data.errors);
-        _this2.errored = true;
+        _this7.errored = true;
       });
     },
     getDeskLists: function getDeskLists() {
-      var _this3 = this;
+      var _this8 = this;
 
       axios.get('/api/V1/desk-lists', {
         params: {
           desk_id: this.deskId
         }
       }).then(function (response) {
-        _this3.desk_lists = response.data.data;
+        _this8.desk_lists = response.data.data;
 
-        _this3.desk_lists.forEach(function (el) {
-          _this3.card_names[el.id] = '';
+        _this8.desk_lists.forEach(function (el) {
+          _this8.card_names[el.id] = '';
         });
       })["catch"](function (error) {
         console.log(error.response.data.errors);
-        _this3.errored = true;
+        _this8.errored = true;
       })["finally"](function () {
-        _this3.loading = false;
+        _this8.loading = false;
       });
     },
     saveName: function saveName() {
-      var _this4 = this;
+      var _this9 = this;
 
       // проверка валидации
       this.$v.$touch();
@@ -5768,13 +5870,13 @@ __webpack_require__.r(__webpack_exports__);
         name: this.name
       }).then(function (response) {})["catch"](function (error) {
         console.log(error);
-        _this4.errored = true;
+        _this9.errored = true;
       })["finally"](function () {
-        _this4.loading = false;
+        _this9.loading = false;
       });
     },
     createDeskList: function createDeskList() {
-      var _this5 = this;
+      var _this10 = this;
 
       this.$v.desk_lists_name.$touch();
 
@@ -5786,59 +5888,59 @@ __webpack_require__.r(__webpack_exports__);
         name: this.desk_lists_name,
         desk_id: this.deskId
       }).then(function (response) {
-        _this5.desk_list_name = '';
-        _this5.desk_lists = [];
+        _this10.desk_list_name = '';
+        _this10.desk_lists = [];
 
-        _this5.getDeskLists();
+        _this10.getDeskLists();
       })["catch"](function (error) {
-        console.log(error);
-        _this5.errored = true;
+        console.log(error.response.data.errors);
+        _this10.errored = true;
       })["finally"](function () {
-        _this5.loading = false;
+        _this10.loading = false;
       });
     },
     deleteDeskList: function deleteDeskList(id) {
-      var _this6 = this;
+      var _this11 = this;
 
       axios.post('/api/V1/desk-lists/' + id, {
         _method: 'DELETE'
       }).then(function (response) {
-        _this6.desk_lists = [];
+        _this11.desk_lists = [];
 
-        _this6.getDeskLists();
+        _this11.getDeskLists();
       })["catch"](function (error) {
         console.log(error.response.data.errors);
-        if (error) _this6.errored = true;
+        if (error) _this11.errored = true;
       })["finally"](function () {
-        _this6.loading = false;
+        _this11.loading = false;
       });
     },
     renameListId: function renameListId(id, name) {
-      var _this7 = this;
+      var _this12 = this;
 
       axios.post('/api/V1/desk-lists/' + id, {
         _method: 'PUT',
         name: name
       }).then(function (response) {
-        _this7.desk_list_input_id = null;
+        _this12.desk_list_input_id = null;
       })["catch"](function (error) {
         console.log(error.response.data.errors);
-        _this7.errored = true;
+        _this12.errored = true;
       })["finally"](function () {
-        _this7.loading = false;
+        _this12.loading = false;
       });
     }
   },
   mounted: function mounted() {
-    var _this8 = this;
+    var _this13 = this;
 
     axios.get('/api/V1/desks/' + this.deskId).then(function (response) {
-      _this8.name = response.data.data.name;
+      _this13.name = response.data.data.name;
     })["catch"](function (error) {
       console.log(error);
-      _this8.errored = true;
+      _this13.errored = true;
     })["finally"](function () {
-      _this8.loading = false;
+      _this13.loading = false;
     });
     this.getDeskLists();
   },
@@ -5986,11 +6088,6 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_2__["default"]({
   },
   router: router
 });
-var myModal = document.getElementById('myModal');
-var myInput = document.getElementById('myInput');
-myModal.addEventListener('shown.bs.modal', function () {
-  myInput.focus();
-});
 
 /***/ }),
 
@@ -6003,8 +6100,6 @@ myModal.addEventListener('shown.bs.modal', function () {
 window._ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 
 try {
-  // window.Popper = require('popper.js') . default;
-  // window.$ = window.jQuery = require('jquery');
   __webpack_require__(/*! bootstrap */ "./node_modules/bootstrap/dist/js/bootstrap.esm.js");
 } catch (e) {}
 /**
@@ -29269,9 +29364,9 @@ var render = function () {
       !_vm.$v.name.minLength
         ? _c("div", { staticClass: "invalid-feedback" }, [
             _vm._v(
-              "\n            Мин. кол-во символов: " +
+              "\n                Мин. кол-во символов: " +
                 _vm._s(_vm.$v.name.$params.minLength.min) +
-                ".\n        "
+                ".\n            "
             ),
           ])
         : _vm._e(),
@@ -29279,9 +29374,9 @@ var render = function () {
       !_vm.$v.name.maxLength
         ? _c("div", { staticClass: "invalid-feedback" }, [
             _vm._v(
-              "\n            Макс. кол-во символов: " +
+              "\n                Макс. кол-во символов: " +
                 _vm._s(_vm.$v.name.$params.maxLength.max) +
-                ".\n        "
+                ".\n            "
             ),
           ])
         : _vm._e(),
@@ -29352,9 +29447,9 @@ var render = function () {
         !_vm.$v.desk_lists_name.minLength
           ? _c("div", { staticClass: "invalid-feedback" }, [
               _vm._v(
-                "\n            Мин. кол-во символов: " +
+                "\n                Мин. кол-во символов: " +
                   _vm._s(_vm.$v.desk_lists_name.$params.minLength.min) +
-                  ".\n        "
+                  ".\n            "
               ),
             ])
           : _vm._e(),
@@ -29362,9 +29457,9 @@ var render = function () {
         !_vm.$v.desk_lists_name.maxLength
           ? _c("div", { staticClass: "invalid-feedback" }, [
               _vm._v(
-                "\n            Макс. кол-во символов: " +
+                "\n                Макс. кол-во символов: " +
                   _vm._s(_vm.$v.desk_lists_name.$params.maxLength.max) +
-                  ".\n        "
+                  ".\n            "
               ),
             ])
           : _vm._e(),
@@ -29375,7 +29470,7 @@ var render = function () {
       ? _c(
           "div",
           { staticClass: "alert alert-danger", attrs: { role: "alert" } },
-          [_vm._v("\n        Ошибка загрузки данных!\n    ")]
+          [_vm._v("\n            Ошибка загрузки данных!\n        ")]
         )
       : _vm._e(),
     _vm._v(" "),
@@ -29393,6 +29488,7 @@ var render = function () {
                   ? _c(
                       "form",
                       {
+                        staticClass: "d-flex justify-content-between",
                         on: {
                           submit: function ($event) {
                             $event.preventDefault()
@@ -29481,7 +29577,7 @@ var render = function () {
                               },
                             },
                           },
-                          [_vm._v("Удалить карточку")]
+                          [_vm._v("Удалить")]
                         ),
                         _vm._v(" "),
                         _c(
@@ -29493,6 +29589,11 @@ var render = function () {
                               "data-bs-toggle": "modal",
                               "data-bs-target": "#exampleModal",
                             },
+                            on: {
+                              click: function ($event) {
+                                return _vm.getCard(card.id)
+                              },
+                            },
                           },
                           [_vm._v("Открыть")]
                         ),
@@ -29501,7 +29602,202 @@ var render = function () {
                   ])
                 }),
                 _vm._v(" "),
-                _vm._m(0, true),
+                _c(
+                  "div",
+                  {
+                    staticClass: "modal fade",
+                    attrs: {
+                      id: "exampleModal",
+                      tabindex: "-1",
+                      "aria-labelledby": "exampleModalLabel",
+                      "aria-hidden": "true",
+                    },
+                  },
+                  [
+                    _c("div", { staticClass: "modal-dialog" }, [
+                      _c("div", { staticClass: "modal-content" }, [
+                        _c("div", { staticClass: "modal-header" }, [
+                          _vm.card_name_input == false
+                            ? _c(
+                                "form",
+                                {
+                                  staticClass:
+                                    "d-flex justify-content-between align-items-center",
+                                  on: {
+                                    submit: function ($event) {
+                                      $event.preventDefault()
+                                      return _vm.updateCardName.apply(
+                                        null,
+                                        arguments
+                                      )
+                                    },
+                                  },
+                                },
+                                [
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: _vm.current_card.name,
+                                        expression: "current_card.name",
+                                      },
+                                    ],
+                                    staticClass: "form-control",
+                                    attrs: {
+                                      placeholder: "Введите название карточки",
+                                      type: "text",
+                                    },
+                                    domProps: { value: _vm.current_card.name },
+                                    on: {
+                                      input: function ($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.$set(
+                                          _vm.current_card,
+                                          "name",
+                                          $event.target.value
+                                        )
+                                      },
+                                    },
+                                  }),
+                                ]
+                              )
+                            : _vm._e(),
+                          _vm._v(" "),
+                          _vm.card_name_input
+                            ? _c(
+                                "h5",
+                                {
+                                  staticClass: "modal-title",
+                                  staticStyle: { cursor: "pointer" },
+                                  attrs: { id: "exampleModalLabel" },
+                                  on: {
+                                    click: function ($event) {
+                                      _vm.card_name_input = false
+                                    },
+                                  },
+                                },
+                                [
+                                  _vm._v(_vm._s(_vm.current_card.name)),
+                                  _c("i", {
+                                    staticClass: "fa-solid fa-pencil",
+                                  }),
+                                ]
+                              )
+                            : _vm._e(),
+                          _vm._v(" "),
+                          _c("button", {
+                            staticClass: "btn-close",
+                            attrs: {
+                              type: "button",
+                              "data-bs-dismiss": "modal",
+                              "aria-label": "Close",
+                            },
+                          }),
+                        ]),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "modal-body" },
+                          [
+                            _vm._l(_vm.current_card.tasks, function (task) {
+                              return _c("form", [
+                                _c("div", { staticClass: "form-check" }, [
+                                  _c("input", {
+                                    staticClass: "form-check-input",
+                                    attrs: {
+                                      type: "checkbox",
+                                      value: "",
+                                      id: "flexCheckDefault",
+                                    },
+                                  }),
+                                  _vm._v(" "),
+                                  _c(
+                                    "label",
+                                    {
+                                      staticClass: "form-check-label",
+                                      attrs: { for: "flexCheckDefault" },
+                                      on: {
+                                        click: function ($event) {
+                                          _vm.input_task_id = task.id
+                                        },
+                                      },
+                                    },
+                                    [_vm._v(_vm._s(task.name))]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("button", {
+                                    staticClass: "btn-close",
+                                    staticStyle: {
+                                      cursor: "pointer",
+                                      "font-size": "13px",
+                                    },
+                                    attrs: {
+                                      type: "button",
+                                      "aria-label": "Close",
+                                    },
+                                    on: {
+                                      click: function ($event) {
+                                        return _vm.deleteTask(task.id)
+                                      },
+                                    },
+                                  }),
+                                ]),
+                              ])
+                            }),
+                            _vm._v(" "),
+                            _c(
+                              "form",
+                              {
+                                staticClass: "input-group input-group-sm mb-3",
+                                on: {
+                                  submit: function ($event) {
+                                    $event.preventDefault()
+                                    return _vm.createNewTask.apply(
+                                      null,
+                                      arguments
+                                    )
+                                  },
+                                },
+                              },
+                              [
+                                _c("input", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.new_task_name,
+                                      expression: "new_task_name",
+                                    },
+                                  ],
+                                  staticClass: "form-control",
+                                  attrs: {
+                                    type: "text",
+                                    placeholder: "Введите название задачи",
+                                    "aria-label": "Sizing example input",
+                                    "aria-describedby": "inputGroup-sizing-sm",
+                                  },
+                                  domProps: { value: _vm.new_task_name },
+                                  on: {
+                                    input: function ($event) {
+                                      if ($event.target.composing) {
+                                        return
+                                      }
+                                      _vm.new_task_name = $event.target.value
+                                    },
+                                  },
+                                }),
+                              ]
+                            ),
+                          ],
+                          2
+                        ),
+                      ]),
+                    ]),
+                  ]
+                ),
                 _vm._v(" "),
                 _c(
                   "form",
@@ -29524,10 +29820,6 @@ var render = function () {
                         },
                       ],
                       staticClass: "form-control mt-2",
-                      class: {
-                        "is-invalid":
-                          _vm.$v.card_names.$each[desk_list.id].$error,
-                      },
                       attrs: {
                         type: "text",
                         placeholder: "Создать новую карточку",
@@ -29546,32 +29838,6 @@ var render = function () {
                         },
                       },
                     }),
-                    _vm._v(" "),
-                    !_vm.$v.card_names.$each[desk_list.id].minLength
-                      ? _c("div", { staticClass: "invalid-feedback" }, [
-                          _vm._v(
-                            "\n                            Мин. кол-во символов: " +
-                              _vm._s(
-                                _vm.$v.card_names.$each[desk_list.id].$params
-                                  .minLength.min
-                              ) +
-                              ".\n                        "
-                          ),
-                        ])
-                      : _vm._e(),
-                    _vm._v(" "),
-                    !_vm.$v.card_names.$each[desk_list.id].maxLength
-                      ? _c("div", { staticClass: "invalid-feedback" }, [
-                          _vm._v(
-                            "\n                            Макс. кол-во символов: " +
-                              _vm._s(
-                                _vm.$v.card_names.$each[desk_list.id].$params
-                                  .maxLength.max
-                              ) +
-                              ".\n                        "
-                          ),
-                        ])
-                      : _vm._e(),
                   ]
                 ),
               ],
@@ -29584,64 +29850,7 @@ var render = function () {
     ),
   ])
 }
-var staticRenderFns = [
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      {
-        staticClass: "modal fade",
-        attrs: {
-          id: "exampleModal",
-          tabindex: "-1",
-          "aria-labelledby": "exampleModalLabel",
-          "aria-hidden": "true",
-        },
-      },
-      [
-        _c("div", { staticClass: "modal-dialog" }, [
-          _c("div", { staticClass: "modal-content" }, [
-            _c("div", { staticClass: "modal-header" }, [
-              _c(
-                "h5",
-                {
-                  staticClass: "modal-title",
-                  attrs: { id: "exampleModalLabel" },
-                },
-                [_vm._v("Modal title")]
-              ),
-              _vm._v(" "),
-              _c("button", {
-                staticClass: "btn-close",
-                attrs: {
-                  type: "button",
-                  "data-bs-dismiss": "modal",
-                  "aria-label": "Close",
-                },
-              }),
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "modal-body" }, [
-              _vm._v(
-                "\n                                    ...\n                                "
-              ),
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "modal-footer" }, [
-              _c(
-                "button",
-                { staticClass: "btn btn-primary", attrs: { type: "button" } },
-                [_vm._v("Редактировать")]
-              ),
-            ]),
-          ]),
-        ]),
-      ]
-    )
-  },
-]
+var staticRenderFns = []
 render._withStripped = true
 
 

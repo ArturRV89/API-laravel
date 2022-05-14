@@ -3,14 +3,13 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\CardRequest;
-use App\Http\Requests\CardUpdateRequest;
-use App\Http\Resources\CardResource;
-use App\Models\Card;
-use Illuminate\Http\Response;
+use App\Http\Requests\TaskRequest;
+use App\Http\Resources\TaskResource;
+use App\Models\Task;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
-class CardController extends Controller
+class TaskController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -28,10 +27,10 @@ class CardController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(CardRequest $request)
+    public function store(TaskRequest $request)
     {
-        $new_card = Card::create($request->validated());
-        return new CardResource($new_card);
+        $new_task = Task::create($request->validated());
+        return new TaskResource($new_task);
     }
 
     /**
@@ -40,9 +39,9 @@ class CardController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($card)
+    public function show($task)
     {
-        return new CardResource(Card::findOrFail($card));
+        return new TaskResource(Task::findOrFail($task));
     }
 
     /**
@@ -52,10 +51,10 @@ class CardController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(CardRequest $request, Card $card)
+    public function update(TaskRequest $request, Task $task)
     {
-        $card->update($request->validated());
-        return new CardResource($card);
+        $task->update($request->validated());
+        return new TaskResource($task);
     }
 
     /**
@@ -64,10 +63,9 @@ class CardController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Card $card)
+    public function destroy(Task $task)
     {
-        $card->tasks()->delete();
-        $card->delete();
+        $task->delete();
         return response(null, Response::HTTP_NO_CONTENT);
     }
 }

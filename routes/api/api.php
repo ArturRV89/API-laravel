@@ -5,6 +5,10 @@ use Illuminate\Support\Facades\Route;
 use \App\Http\Controllers\Api\V1\DeskController;
 use \App\Http\Controllers\Api\V1\DeskListController;
 use \App\Http\Controllers\Api\V1\CardController;
+use \App\Http\Controllers\Api\V1\TaskController;
+
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -25,4 +29,5 @@ Route::apiResources([
     'desks' => DeskController::class,
     'desk-lists' => DeskListController::class,
     'cards' => CardController::class,
+    'tasks' => TaskController::class,
 ]);

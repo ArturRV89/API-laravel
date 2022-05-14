@@ -13,4 +13,9 @@ class Card extends Model
         'name',
         'desk_list_id',
     ];
+
+    public function tasks()
+    {
+        return $this->hasMany(Task::class);
+    }
 }

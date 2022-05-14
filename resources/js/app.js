@@ -6,10 +6,10 @@ import VueAxios from 'vue-axios';
 import axios from 'axios';
 import Vuelidate from "vuelidate";
 
+
 Vue.use(VueRouter);
 Vue.use(VueAxios, axios);
 Vue.use(Vuelidate);
-
 
 
 import App from "./components/App";
@@ -18,6 +18,7 @@ import Example from "./components/Example";
 import Home from "./components/Home";
 import About from "./components/About";
 import ShowDesks from "./components/Desks/ShowDesks";
+
 
 const router = new VueRouter({
     mode: 'history',
@@ -57,9 +58,4 @@ const app = new Vue({
     router
 })
 
-var myModal = document.getElementById('myModal')
-var myInput = document.getElementById('myInput')
 
-myModal.addEventListener('shown.bs.modal', function () {
-    myInput.focus()
-})
